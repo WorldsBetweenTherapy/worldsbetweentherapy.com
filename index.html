@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Worlds Between: Psychotherapy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:        #0e1a2b;
+      --ink-soft:   #2a3d52;
+      --mist:       #8aa7c0;
+      --mist-light: #b8d0e3;
+      --tide:       #4a7fa5;
+      --tide-dark:  #2d5f82;
+      --sky:        #d6e9f5;
+      --sky-pale:   #edf5fb;
+      --white:      #f8fbfd;
+      --accent:     #1e6fa8;
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body:    'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--ink);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.4rem 4rem;
+      background: rgba(14, 26, 43, 0.7);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(138, 167, 192, 0.12);
+      transition: background 0.3s;
+    }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 400;
+      letter-spacing: 0.03em;
+      color: var(--mist-light);
+      text-decoration: none;
+    }
+    .nav-logo span { font-style: italic; color: var(--mist); }
+    .nav-links { display: flex; gap: 2.4rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--mist);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta {
+      font-size: 0.78rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--white) !important;
+      border: 1px solid rgba(138,167,192,0.4);
+      padding: 0.5rem 1.2rem;
+      border-radius: 2px;
+      transition: background 0.2s, border-color 0.2s !important;
+    }
+    .nav-cta:hover { background: rgba(138,167,192,0.15) !important; border-color: var(--mist-light) !important; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding: 8rem 4rem 6rem;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 70% 40%, rgba(45, 95, 130, 0.35) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 80% at 10% 80%, rgba(30, 111, 168, 0.2) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 90% 10%, rgba(74, 127, 165, 0.15) 0%, transparent 55%);
+      pointer-events: none;
+    }
+    .hero-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      animation: drift 14s ease-in-out infinite alternate;
+    }
+    .hero-orb-1 { width: 500px; height: 500px; background: rgba(45,95,130,0.22); top: -10%; right: 5%; }
+    .hero-orb-2 { width: 320px; height: 320px; background: rgba(30,111,168,0.18); bottom: 5%; left: 15%; animation-delay: -5s; }
+    @keyframes drift { from { transform: translate(0,0) scale(1); } to { transform: translate(30px, -20px) scale(1.05); } }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 700px;
+    }
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--mist);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.2s forwards;
+    }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(3.2rem, 7vw, 5.8rem);
+      font-weight: 300;
+      line-height: 1.05;
+      color: var(--white);
+      margin-bottom: 0.3rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.35s forwards;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--mist-light);
+    }
+    .hero-subtitle {
+      font-family: var(--font-display);
+      font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--mist);
+      margin-bottom: 2.2rem;
+      letter-spacing: 0.02em;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.5s forwards;
+    }
+    .hero-body {
+      font-size: 1rem;
+      color: var(--mist-light);
+      max-width: 520px;
+      margin-bottom: 2.8rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.65s forwards;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 1.2rem;
+      align-items: center;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.8s forwards;
+    }
+    .btn-primary {
+      display: inline-block;
+      padding: 0.85rem 2.2rem;
+      background: var(--tide-dark);
+      color: var(--white);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 1px solid var(--tide);
+      border-radius: 2px;
+      transition: background 0.25s, border-color 0.25s;
+    }
+    .btn-primary:hover { background: var(--accent); border-color: var(--accent); }
+    .btn-ghost {
+      display: inline-block;
+      padding: 0.85rem 2.2rem;
+      color: var(--mist-light);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 1px solid rgba(138,167,192,0.3);
+      border-radius: 2px;
+      transition: border-color 0.25s, color 0.25s;
+    }
+    .btn-ghost:hover { border-color: var(--mist-light); color: var(--white); }
+
+    /* ── DIVIDER ── */
+    .wave-divider {
+      width: 100%;
+      overflow: hidden;
+      line-height: 0;
+      margin-top: -2px;
+    }
+    .wave-divider svg { display: block; width: 100%; }
+
+    /* ── SECTIONS ── */
+    section { padding: 7rem 4rem; }
+
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--tide);
+      margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 300;
+      line-height: 1.2;
+      margin-bottom: 1.8rem;
+    }
+    .section-title em { font-style: italic; color: var(--mist-light); }
+
+    /* ── ABOUT ── */
+    #about { background: #0b1622; }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .about-text p {
+      color: var(--mist-light);
+      font-size: 1.02rem;
+      line-height: 1.85;
+      margin-bottom: 1.4rem;
+    }
+    .about-text p:last-child { margin-bottom: 0; }
+    .about-sidebar { padding-top: 0.5rem; }
+    .populations-card {
+      background: rgba(45, 95, 130, 0.12);
+      border: 1px solid rgba(138,167,192,0.15);
+      border-radius: 4px;
+      padding: 2rem 2.2rem;
+      margin-bottom: 2rem;
+    }
+    .populations-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--mist-light);
+      margin-bottom: 1.2rem;
+    }
+    .pop-list { list-style: none; }
+    .pop-list li {
+      font-size: 0.92rem;
+      color: var(--mist);
+      padding: 0.55rem 0;
+      border-bottom: 1px solid rgba(138,167,192,0.1);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .pop-list li:last-child { border-bottom: none; }
+    .pop-list li::before {
+      content: '';
+      display: inline-block;
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--tide);
+      flex-shrink: 0;
+    }
+
+    /* ── SERVICES ── */
+    #services { background: var(--ink); }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5px;
+      background: rgba(138,167,192,0.1);
+      border: 1px solid rgba(138,167,192,0.1);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 3.5rem;
+    }
+    .service-card {
+      background: var(--ink);
+      padding: 2.5rem 2rem;
+      transition: background 0.25s;
+    }
+    .service-card:hover { background: #0e1f33; }
+    .service-num {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      font-weight: 300;
+      color: rgba(74,127,165,0.25);
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+    .service-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: 0.8rem;
+      line-height: 1.3;
+    }
+    .service-card p {
+      font-size: 0.88rem;
+      color: var(--mist);
+      line-height: 1.75;
+    }
+    .service-tag {
+      display: inline-block;
+      margin-top: 1.2rem;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--tide);
+      border: 1px solid rgba(74,127,165,0.35);
+      padding: 0.3rem 0.7rem;
+      border-radius: 2px;
+    }
+
+    /* ── APPROACH ── */
+    #approach {
+      background: linear-gradient(180deg, #0b1622 0%, #0d1d30 100%);
+    }
+    .approach-columns {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .approach-quote {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.4;
+      color: var(--mist-light);
+      padding-left: 1.5rem;
+      border-left: 2px solid var(--tide);
+    }
+    .approach-body p {
+      font-size: 0.98rem;
+      color: var(--mist);
+      line-height: 1.85;
+      margin-bottom: 1.2rem;
+    }
+
+    /* ── FAQ ── */
+    #faq { background: #0b1622; }
+    .faq-list { margin-top: 3rem; }
+    .faq-item {
+      border-bottom: 1px solid rgba(138,167,192,0.12);
+    }
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      color: var(--white);
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 400;
+      text-align: left;
+      padding: 1.5rem 0;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      transition: color 0.2s;
+    }
+    .faq-question:hover { color: var(--mist-light); }
+    .faq-icon {
+      width: 22px; height: 22px;
+      border: 1px solid rgba(138,167,192,0.3);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-size: 0.9rem;
+      color: var(--mist);
+      transition: transform 0.3s, background 0.2s;
+    }
+    .faq-item.open .faq-icon { transform: rotate(45deg); background: rgba(74,127,165,0.2); }
+    .faq-answer {
+      font-size: 0.92rem;
+      color: var(--mist);
+      line-height: 1.85;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s;
+      padding-bottom: 0;
+    }
+    .faq-item.open .faq-answer {
+      max-height: 400px;
+      padding-bottom: 1.6rem;
+    }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--ink); }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .contact-intro p {
+      font-size: 1rem;
+      color: var(--mist);
+      line-height: 1.85;
+      margin-bottom: 1.2rem;
+    }
+    .contact-detail {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 0.88rem;
+      color: var(--mist);
+      margin-top: 1.8rem;
+    }
+    .contact-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--tide);
+      flex-shrink: 0;
+    }
+    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-group label {
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--mist);
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      background: rgba(138,167,192,0.06);
+      border: 1px solid rgba(138,167,192,0.18);
+      border-radius: 2px;
+      padding: 0.75rem 1rem;
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 300;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+      width: 100%;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--tide);
+      background: rgba(74,127,165,0.08);
+    }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .form-group select option { background: var(--ink-soft); }
+    .form-submit {
+      margin-top: 0.5rem;
+      padding: 0.9rem 2rem;
+      background: var(--tide-dark);
+      color: var(--white);
+      border: 1px solid var(--tide);
+      border-radius: 2px;
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.25s;
+      align-self: flex-start;
+    }
+    .form-submit:hover { background: var(--accent); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #070f1a;
+      padding: 3rem 4rem;
+      border-top: 1px solid rgba(138,167,192,0.1);
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .footer-logo {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 400;
+      color: var(--mist);
+    }
+    .footer-logo em { font-style: italic; }
+    .footer-note {
+      font-size: 0.78rem;
+      color: rgba(138,167,192,0.45);
+      max-width: 420px;
+      line-height: 1.6;
+      text-align: center;
+    }
+    .footer-copy {
+      font-size: 0.75rem;
+      color: rgba(138,167,192,0.35);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 2rem; }
+      .nav-links { display: none; }
+      section { padding: 5rem 2rem; }
+      #hero { padding: 7rem 2rem 5rem; }
+      #hero > div[style*="grid"] { grid-template-columns: 1fr !important; }
+      #hero > div[style*="grid"] > div:last-child { display: block !important; }
+      .about-grid,
+      .approach-columns,
+      .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .services-grid { grid-template-columns: 1fr; }
+      footer { padding: 2.5rem 2rem; }
+      .footer-inner { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      .footer-note { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#hero" class="nav-logo">Worlds Between<span>: Psychotherapy</span></a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#my-world">My World</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#approach">Approach</a></li>
+      <li><a href="#contact" class="nav-cta">Book a consult</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div style="position: relative; z-index: 2; max-width: 1100px; margin: 0 auto; width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;">
+      <div class="hero-content" style="max-width: 100%;">
+        <p class="hero-eyebrow">Counselling and Psychotherapy<br/>Ontario, Canada</p>
+        <h1 class="hero-title">Worlds<br /><em>Between</em></h1>
+        <p class="hero-subtitle">Psychotherapy</p>
+        <p style="font-size: 0.85rem; color: var(--mist-light); letter-spacing: 0.05em; margin-bottom: 0.3rem; opacity: 0; animation: fadeUp 0.9s 0.55s forwards;">Spencer Wai-Lun Wheeler (they/he)</p>
+        <p style="font-size: 0.78rem; color: var(--mist); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 2.2rem; opacity: 0; animation: fadeUp 0.9s 0.65s forwards;">Registered Social Worker</p>
+        <p class="hero-body" style="margin-bottom: 2.8rem;">
+          A relational space for those ready to shift their lens — exploring depth, expanded states, and the connections that reshape how we experience ourselves and the world.
+        </p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn-primary">Book a free consult</a>
+          <a href="#contact" class="btn-ghost">Send me an email</a>
+        </div>
+      </div>
+      <div style="opacity: 0; animation: fadeUp 0.9s 0.9s forwards; display: flex; align-items: center; justify-content: center;">
+        <img src="_IMG6249.jpg" alt="Spencer Wheeler standing on a wooden bridge surrounded by lush greenery" style="width: 100%; max-width: 420px; height: auto; display: block; border-radius: 8px; box-shadow: 0 0 60px rgba(30,111,168,0.2);" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-inner">
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <p class="section-label">About the practice</p>
+          <h2 class="section-title">Your world is<br /><em>uniquely yours</em></h2>
+
+          <p>Each of us inhabits a world shaped entirely by our own perception — our history, our wounds, our longings, the stories we have learned to tell about ourselves. Your world is real, and it is uniquely yours.</p>
+
+          <p>And yet, something quietly profound happens when two worlds meet. In genuine relationship, perspectives touch and begin to shift. We become newly aware of what has always been present and what has long been absent. A slightly different way of seeing becomes possible — not because anything outside has changed, but because something between us has.</p>
+
+          <p>This is what I mean by the worlds between. The relational space we build together is not simply the backdrop to therapy — it is the therapy itself. It is the place where your world is truly seen, genuinely heard, and met without judgment. From that foundation, insight becomes possible. Change becomes possible.</p>
+
+          <p>The world we live in shapes how we are perceived and how we perceive — and the world's relationship to us can be hostile, for some more than others. Mental health challenges are in many ways a systemic creation, one that keeps us detached and unable to fully engage with life and with each other. Part of this work is helping you shed the weight of that world — a weight that individualistic cultures place on each of us, quietly expecting the next generation to carry it forward.</p>
+
+          <p>You do not have to carry that weight alone. Many people find their way to this work when the world they are living in no longer feels like their own — when they feel stuck, disconnected, or quietly aware that something needs to shift. Whatever brings you here, my commitment is to meet you in that space with presence and care, and to walk alongside you as you begin to see your world, and yourself, anew.</p>
+
+
+        </div>
+
+        <div class="about-sidebar reveal" style="transition-delay: 0.15s">
+          <div class="populations-card">
+            <h3>Expertise</h3>
+            <p style="font-size: 0.88rem; color: var(--mist); margin-bottom: 1.2rem; line-height: 1.7;">
+              I primarily work with individuals, couples, and polycules aged 18 and older. I welcome clients from all walks of life — below are some of the presenting concerns that I specialize in working with, though this list is not exhaustive. If you are unsure whether we are a good fit, I warmly invite you to reach out.
+            </p>
+            <ul class="pop-list">
+              <li>LGBTQ+</li>
+              <li>Psychedelic Integration</li>
+              <li>Trauma, PTSD, and CPTSD</li>
+              <li>Anxiety</li>
+              <li>Depression</li>
+              <li>Addiction</li>
+              <li>Men's Issues</li>
+              <li>Polyamory or Open Relationships</li>
+              <li>Relationship Issues</li>
+              <li>Identity Exploration</li>
+              <li>Spirituality</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MY WORLD -->
+  <section id="my-world" style="background: var(--ink);">
+    <div class="section-inner">
+      <div class="approach-columns reveal">
+        <div>
+          <p class="section-label">My world</p>
+          <blockquote class="approach-quote">
+            "Hope is like a lighthouse."
+          </blockquote>
+        </div>
+        <div>
+          <p style="color: var(--mist); font-size: 0.98rem; line-height: 1.85; margin-bottom: 1.4rem;">
+            Old-school traditional therapy training often taught me that I had to keep my world completely hidden — that any self-disclosure is harmful to the therapeutic relationship. Therapists of my generation tend to share a little more of themselves. Is there really a right way to do this? Depends who you ask. All I know is that this is my way of doing things, and it feels right to me — and to the people who decide to work with me.
+          </p>
+          <p style="color: var(--mist); font-size: 0.98rem; line-height: 1.85; margin-bottom: 1.4rem;">
+            My world has changed quite a bit throughout the years. I've gone from being an AMAB cisgender half-Chinese, half-White straight-acting and closeted bisexual atheist in high school, to becoming a deeply repressed business student, to having my world blown apart by psychedelics and emerging as a spiritual, pansexual, genderfluid (he/they) registered social worker with an MSW. From there, I let go of the things that other people wanted me to be. I was a prime people-pleaser — still am, to some extent. Throughout that time I also developed CPTSD and vast amounts of relational trauma connected to my queer identity. These are all just labels of course. Inherently, my core self is a lot more difficult to describe. Everyone has their core self and to describe this feeling with words would almost be a disservice.
+          </p>
+          <p style="color: var(--mist); font-size: 0.98rem; line-height: 1.85; margin-bottom: 1.4rem;">
+            The thing that carried me through all of those moments is hope. Not the kind of hope that promises everything will be okay — but the quiet, stubborn kind that simply refuses to stop believing there is a way forward, no matter what life throws at you. I needed that kind of hope. I still do.
+          </p>
+          <p style="color: var(--mist); font-size: 0.98rem; line-height: 1.85;">
+            Hope, to me, is like a lighthouse. There are times when it is hard to find — when the fog is thick, or its light happens to be shining in another direction. But it always comes back around. And in that moment, something in you knows: the lighthouse is still there. The shore is still reachable. That is my guiding principle in this work — the deep belief that no matter where you are right now, we can find our way back to that shore, together.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- APPROACH -->
+  <section id="approach">
+    <div class="section-inner">
+      <div class="approach-columns">
+        <div class="reveal">
+          <p class="section-label">My approach</p>
+          <blockquote class="approach-quote">
+            "The relationship is the launchpad."
+          </blockquote>
+        </div>
+        <div class="reveal" style="transition-delay: 0.15s">
+          <p style="color: var(--mist); font-size: 0.98rem; line-height: 1.85; margin-bottom: 1.2rem;">
+            At the heart of this work is the belief that the therapeutic relationship itself is the primary vehicle for change. Before any technique — there is the relationship between us. From that foundation, we can explore what needs to move.
+          </p>
+          <p style="color: var(--mist); font-size: 0.98rem; line-height: 1.85; margin-bottom: 1.2rem;">
+            I use a trauma-informed, anti-oppressive, and client-centered approach to support my clients in integrating their experiences and working through trauma. This means I honour your resilience, centre your lived experience, and remain attuned to the broader social and systemic contexts that shape your world.
+          </p>
+          <p style="color: var(--mist); font-size: 0.98rem; line-height: 1.85; margin-bottom: 1.2rem;">
+            The primary lens through which I work is <strong style="color: var(--mist-light); font-weight: 500;">Internal Family Systems (IFS)</strong> therapy. IFS offers a compassionate framework for understanding the different parts of ourselves — including the parts that carry pain, shame, or protective patterns developed long ago. Through this process, we work together to process and integrate trauma from your past, so that you can release what is holding you back in your everyday life. Over time, you will begin to reconnect with your core Self — and with it, a renewed sense of compassion, curiosity, and joy toward life and your relationships.
+          </p>
+          <p style="color: var(--mist); font-size: 0.98rem; line-height: 1.85; margin-bottom: 1.2rem;">
+            I also draw on <strong style="color: var(--mist-light); font-weight: 500;">Narrative Therapy</strong>, which invites you to examine the stories you have been told — and have told yourself — about who you are. By separating the person from the problem, Narrative Therapy creates space to author a new story: one that reflects your values, your strengths, and the life you actually want to be living.
+          </p>
+          <p style="color: var(--mist); font-size: 0.98rem; line-height: 1.85;">
+            <strong style="color: var(--mist-light); font-weight: 500;">Acceptance and Commitment Therapy (ACT)</strong> is another modality I integrate into our work. ACT supports you in developing psychological flexibility — learning to relate differently to difficult thoughts and emotions rather than being controlled by them, and moving toward a life guided by your deepest values rather than your fears.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="section-inner">
+      <div class="reveal">
+        <p class="section-label">What I offer</p>
+        <h2 class="section-title">Services</h2>
+        <p style="color: var(--mist); max-width: 560px; font-size: 0.98rem; line-height: 1.8;">
+          All services are offered with deep respect for the therapeutic relationship and a commitment to safe, ethical, evidence-informed practice.
+        </p>
+        <p style="color: var(--mist-light); font-size: 0.92rem; margin-top: 1.2rem; font-weight: 500;">Available for virtual sessions:</p>
+        <p style="color: var(--mist); font-size: 0.92rem; margin-top: 0.3rem;">Monday 11 AM – 7 PM</p>
+        <p style="color: var(--mist); font-size: 0.92rem; margin-top: 0.3rem;">Tuesday 11 AM – 7 PM</p>
+        <p style="color: var(--mist); font-size: 0.92rem; margin-top: 0.3rem;">Thursday 11 AM – 7 PM</p>
+
+        <p style="color: var(--mist-light); font-family: var(--font-display); font-size: 1.3rem; font-weight: 400; margin-top: 2rem;">Clinical Rates</p>
+        <p style="color: var(--mist); font-size: 0.92rem; margin-top: 0.5rem;">$135 – 50min Intake Session</p>
+        <p style="color: var(--mist); font-size: 0.92rem; margin-top: 0.3rem;">$135 – 50min Session</p>
+        <p style="color: var(--mist); font-size: 0.92rem; margin-top: 0.3rem;">$190 – 80min Session</p>
+
+        <p style="color: var(--mist); font-size: 0.92rem; margin-top: 1.2rem;">$250 – 80min Couples Intake Session</p>
+        <p style="color: var(--mist); font-size: 0.92rem; margin-top: 0.3rem;">$170 – 50min Couples Session</p>
+        <p style="color: var(--mist); font-size: 0.92rem; margin-top: 0.3rem;">$240 – 80min Couples Session</p>
+        <p style="color: var(--mist); font-size: 0.88rem; margin-top: 1.2rem; font-style: italic;">Sliding scale rates are available.</p>
+      </div>
+      <div class="services-grid reveal" style="transition-delay: 0.1s">
+        <div class="service-card">
+          <div class="service-num">01</div>
+          <h3>Individual Therapy</h3>
+          <p>A relational space for individuals navigating depression, anxiety, trauma, identity, addiction, and relationship difficulties. Using IFS, Narrative Therapy, and ACT, we work together to process what is holding you back and reconnect you with a life that feels like your own.</p>
+          <span class="service-tag">Available now</span>
+        </div>
+        <div class="service-card">
+          <div class="service-num">02</div>
+          <h3>Relationship Counselling</h3>
+          <p>Supportive therapy for couples and polycules navigating conflict, communication challenges, intimacy, or relationship transitions. I am Level 1 certified in the Gottman Method — an evidence-based approach that builds deeper understanding, trust, and connection between partners.</p>
+          <span class="service-tag">Gottman Method</span>
+        </div>
+        <div class="service-card">
+          <div class="service-num">03</div>
+          <h3>Psychedelic Integration &amp; Harm Reduction</h3>
+          <p>While psychedelics are not necessarily legal at this time, the reality is that many Canadians are currently using psychedelics without proper integration of these experiences. These sessions offer a grounded, non-judgmental space to integrate insights, process difficult material, and move forward with clarity and intention.</p>
+          <span class="service-tag">Available now</span>
+        </div>
+        <div class="service-card">
+          <div class="service-num">04</div>
+          <h3>Free Consultation</h3>
+          <p>A no-pressure 20-minute conversation to explore whether we are a good fit. I welcome your questions about the work, my approach, and what to expect from the process.</p>
+          <span class="service-tag">Book below</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CREDENTIALS -->
+  <section id="credentials" style="background: #0b1622;">
+    <div class="section-inner">
+      <div class="reveal" style="max-width: 600px; margin: 0 auto; text-align: center;">
+        <p class="section-label" style="text-align: center;">Credentials</p>
+        <h2 class="section-title" style="text-align: center;">Training &amp; <em>Qualifications</em></h2>
+        <div style="padding: 2.4rem 2.8rem; border: 1px solid rgba(138,167,192,0.15); border-radius: 4px; background: rgba(14,26,43,0.6); margin-top: 2rem; text-align: left;">
+          <p style="font-size: 0.95rem; color: var(--mist-light); line-height: 2;">
+            Master of Social Work (MSW)<br/>
+            <span style="color: var(--mist); font-size: 0.85rem;">Graduated from University of Toronto (2024)</span><br/><br/>
+            Honours Specialization in Psychology<br/>
+            <span style="color: var(--mist); font-size: 0.85rem;">Graduated from Western University (2021)</span><br/><br/>
+            Advanced Psychedelic-Assisted Therapy Certified by ATMA CENA<br/><br/>
+            Gottman Method Couples Therapy Level 1 Certified<br/><br/>
+            Registered Social Worker with the Ontario College of Social Workers and Social Service Workers<br/>
+            <span style="color: var(--mist); font-size: 0.85rem;">OCSWSSW #858302</span><br/><br/>
+            Member of the Ontario Association of Social Workers<br/>
+            <span style="color: var(--mist); font-size: 0.85rem;">OASW #27384</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-inner">
+      <div class="contact-grid">
+        <div class="contact-intro reveal">
+          <p class="section-label">Reach out</p>
+          <h2 class="section-title">Begin the<br /><em>conversation</em></h2>
+          <p>Reaching out is the first step. Whether you have specific questions or simply want to explore whether this work is right for you, I welcome your message.</p>
+          <p>I respond to all inquiries within two business days. All contact is confidential.</p>
+          <div class="contact-detail">
+            <span class="contact-dot"></span>
+            <span>Toronto, Ontario, Canada</span>
+          </div>
+          <div class="contact-detail">
+            <span class="contact-dot"></span>
+            <span>Virtual sessions available across Ontario</span>
+          </div>
+
+        </div>
+
+        <div class="reveal" style="transition-delay: 0.15s">
+          <form class="contact-form" onsubmit="handleSubmit(event)">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="fname">First name</label>
+                <input type="text" id="fname" placeholder="Your first name" />
+              </div>
+              <div class="form-group">
+                <label for="lname">Last name</label>
+                <input type="text" id="lname" placeholder="Your last name" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="email">Email address</label>
+              <input type="email" id="email" placeholder="you@email.com" />
+            </div>
+            <div class="form-group">
+              <label for="reason">I am reaching out about</label>
+              <select id="reason">
+                <option value="">Select an option...</option>
+                <option>Free 20-minute Consultation</option>
+                <option>Psychedelic Integration</option>
+                <option>Individual Therapy</option>
+                <option>Relationship Counselling</option>
+                <option>General Inquiry</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="message">Message (optional)</label>
+              <textarea id="message" placeholder="Feel free to share anything that feels relevant..."></textarea>
+            </div>
+            <button type="submit" class="form-submit">Send message</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">Worlds Between<em>: Psychotherapy</em></div>
+      <p class="footer-note">
+        This website is for informational purposes only and does not constitute medical or psychiatric advice. If you are in crisis, please contact a crisis line or emergency services.
+      </p>
+      <p class="footer-copy">© 2025 Worlds Between: Psychotherapy</p>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const revealEls = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => obs.observe(el));
+
+    // FAQ accordion
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    }
+
+    // Form
+    function handleSubmit(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('.form-submit');
+      btn.textContent = 'Message sent ✓';
+      btn.style.background = '#1a5e3a';
+      btn.style.borderColor = '#2d8a58';
+      setTimeout(() => {
+        btn.textContent = 'Send message';
+        btn.style.background = '';
+        btn.style.borderColor = '';
+        e.target.reset();
+      }, 3500);
+    }
+
+    // Sticky nav opacity
+    window.addEventListener('scroll', () => {
+      const nav = document.querySelector('nav');
+      nav.style.background = window.scrollY > 60
+        ? 'rgba(7, 15, 26, 0.92)'
+        : 'rgba(14, 26, 43, 0.7)';
+    });
+  </script>
+</body>
+</html>
